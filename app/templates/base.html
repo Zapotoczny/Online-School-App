@@ -1,0 +1,32 @@
+{% load static %}
+<html lang="pl">
+        <head>
+            <meta charset="UTF-8">
+            <title>School App</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="{% static 'app.css' %}">
+            <script src="https://use.fontawesome.com/451851369b.js"></script>
+            <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        </head>
+<body>
+    <div class="all">
+<nav class="navbar navbar-light bg-light">
+      <div class="page-header">
+        <a class="nav-link" href="{% url 'class_list' %}"><b>List of students</b></a>
+        <a class="nav-link" href="{% url 'grades_table' %}"><b>Grades table</b></a>
+      </div>
+    <div class="gora">
+    <p class="title"><b>School App</b></p>
+</div>
+</nav>
+<div class="content container">
+    <div class="row">
+        <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

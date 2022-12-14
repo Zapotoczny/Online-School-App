@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>{{ name }}</h1>
+    <table class="grades_table">
+        <tr>
+            <th>Grade</th>
+            <th>Type</th>
+        </tr>
+    {% for grade in grades %}
+        <tr>
+            <th>{{ grade.grade }}</th>
+            <th>{{ grade.grade_type }}</th>
+        </tr>
+    {% endfor %}
+    </table>
+    <form method="post" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-primary">Save</button>
+    
+    </form>
+
+{% endblock %}
