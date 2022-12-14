@@ -193,3 +193,13 @@ margin-top: 8px;
   width:50%;
   text-align: center;
 }
+
+.grades_table_all {
+  border: 1px solid black;
+  width:100%;
+}
+
+.grades_table_all th, tr {
+  border: 1px solid black;
+  text-align: center;
+}

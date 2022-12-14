@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import Students, Grades
-from .forms import GradeForm
+from django.db.models import Avg
+from .forms import GradeForm, AddStudentForm
 
 # Create your views here.
 
@@ -10,7 +11,15 @@ def class_list(request):
 
 def add_grades(request,pk):
     name = Students.objects.get(pk=pk)
-    grades = Grades.objects.filter(student_id=Students.objects.get(pk=pk).student_id)
+
+    #Get student with same id
+    stu_id = Students.objects.get(pk=pk).student_id
+    grades = Grades.objects.filter(student_id=stu_id)
+
+    #Get avg
+    avg_grades = Grades.objects.filter(student_id=stu_id).aggregate(Avg('grade'))['grade__avg']
+
+    #Save to db if methode POST and form is valid
     if request.method == 'POST':
         form = GradeForm(request.POST)
         if form.is_valid():
@@ -20,7 +29,27 @@ def add_grades(request,pk):
             return redirect('add_grades', pk=pk)
     else:
         form = GradeForm()
-    return render(request, 'add_grades.html', {'form':form,'name':name,'grades':grades})
+    return render(request, 'add_grades.html', {'form':form,'name':name,'grades':grades,'avg_grades':avg_grades,'student_id':stu_id})
 
 def grades_table(request):
-    return render(request, 'grades_table.html')
+    table = []
+    students = Students.objects.all()
+    for student in students:
+        resault ={
+            'name':student.name,
+            'avg':Grades.objects.filter(student_id=student.student_id).aggregate(Avg('grade'))['grade__avg'] or 0,
+            'id':student.student_id
+        }
+        table.append(resault)
+    return render(request, 'grades_table.html', {'table':table})
+
+def add_student(request):
+    if request.method == 'POST':
+        form = AddStudentForm(request.POST)
+        if form.is_valid():
+            student_form = form.save(commit=False)
+            student_form.save()
+            return redirect('/')
+    else:
+        form = AddStudentForm()
+    return render(request, 'add_student.html', {'form':form})

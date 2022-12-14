@@ -2,6 +2,8 @@
 {% block content %}
 
     <h1>{{ name }}</h1>
+    <h4>Id: <b>{{ student_id }}</b></h4>
+    <h4>Avg: <b>{{ avg_grades }}</b></h4>
     <table class="grades_table">
         <tr>
             <th>Grade</th>
@@ -13,7 +15,8 @@
             <th>{{ grade.grade_type }}</th>
         </tr>
     {% endfor %}
-    </table>
+    </table><br>
+    <h2>Add Grades:</h2>
     <form method="post" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

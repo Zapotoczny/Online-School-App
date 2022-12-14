@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>List of grades</h1>
+    <table class="grades_table_all">
+        <tr>
+            <th>Name</th>
+            <th>Avg</th>
+            <th>Id</th>
+        </tr>
+    {% for student in table %}
+        <tr>
+            <th>{{ student.name }}</th>
+            <th>{{ student.avg }}</th>
+            <th>{{ student.id }}</th>
+        </tr>
+    {% endfor %}
+    </table><br>
+
+{% endblock %}
