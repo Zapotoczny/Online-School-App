@@ -29,21 +29,28 @@ def add_grades(request,pk):
             return redirect('add_grades', pk=pk)
     else:
         form = GradeForm()
+        
     return render(request, 'add_grades.html', {'form':form,'name':name,'grades':grades,'avg_grades':avg_grades,'student_id':stu_id})
 
 def grades_table(request):
     table = []
     students = Students.objects.all()
     for student in students:
+
+        #Add students with values
         resault ={
             'name':student.name,
             'avg':Grades.objects.filter(student_id=student.student_id).aggregate(Avg('grade'))['grade__avg'] or 0,
             'id':student.student_id
         }
+
+        #Append to main table
         table.append(resault)
+
     return render(request, 'grades_table.html', {'table':table})
 
 def add_student(request):
+    #Check if request method is POST and is valid then add new student
     if request.method == 'POST':
         form = AddStudentForm(request.POST)
         if form.is_valid():
